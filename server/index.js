@@ -1,9 +1,10 @@
 const express = require("express");
 const app = express();
 const { MongoClient } = require("mongodb");
-
-const uri =
-  "mongodb+srv://pushkar:py123456@cluster0.m6mg9nl.mongodb.net/?retryWrites=true&w=majority";
+const cors = require("cors");
+require("dotenv").config();
+app.use(cors());
+const uri = process.env.MONGO_URI;
 const client = new MongoClient(uri);
 
 app.use("/products", async (req, res) => {
@@ -24,11 +25,20 @@ app.use("/products", async (req, res) => {
         .limit(10)
         .toArray()
     );
-  } finally {
-    await client.close();
+  } catch (error) {
+    console.error(error);
   }
 });
-
+app.use("/offers", async (req, res) => {
+  try {
+    await client.connect();
+    const database = client.db("ecommerce");
+    const offers = database.collection("offers");
+    res.send(await offers.find().toArray());
+  } catch (error) {
+    console.error(error);
+  }
+});
 app.listen(5500, () => {
   console.log(`Server started http://localhost:5500`);
 });
