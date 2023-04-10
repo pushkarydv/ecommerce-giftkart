@@ -5,7 +5,7 @@ Features:
   - /server has 2 endopint CORS based
     - products (max 10 products matching the query )
     - offers ( sends offer images links from db )
- - Search Functionality with debounce
+ - Search Functionality with debounce and as you write.
  - Frontend css is in style jsx for native and non interfering css
  - carousel component is fully reulable and just requires a array of images to be passed.
  
